@@ -1,4 +1,4 @@
-# ViveConsole
+﻿# ViveConsole
 
 ViveConsole 是一个简单的交互式前端工具，用于管理 [ViVeTool](https://github.com/thebookisclosed/ViVe) 的 Windows 功能配置。
 
@@ -48,6 +48,10 @@ dotnet pack -c Release
 # 然后安装为全局工具，建议指定版本号
 dotnet tool install --global --add-source ./nupkg ViveConsole --version <版本号>
 ```
+
+## 版本历史纪录
+
+- v1.0.2 - 12-09-25 - 初始可用版本。
 
 ## 许可证
 
