@@ -51,6 +51,7 @@ dotnet tool install --global --add-source ./nupkg ViveConsole --version <版本�
 
 ## 版本历史纪录
 
+- v1.1.0 - 12-10-25 - 更改vivetool命令队列和执行逻辑。
 - v1.0.2 - 12-09-25 - 初始可用版本。
 
 ## 许可证

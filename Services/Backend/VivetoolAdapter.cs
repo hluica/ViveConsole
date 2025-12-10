@@ -13,51 +13,52 @@ public class VivetoolAdapter : IVivetoolAdapter
 
     public async Task ExecuteBatchAsync(List<InstructionRow> rows)
     {
-        // 1. 处理 Reset (可以全部合并)
-        var resetRows = rows.Where(r => r.Action == ActionType.Reset).ToList();
-        if (resetRows.Count != 0)
+        // 1. 定义核心副作用函数：执行命令并更新行状态
+        // 使用本地函数（Local Function）封装重复逻辑
+        static async Task RunAndUpdateAsync(string args, IEnumerable<InstructionRow> targetRows)
         {
-            var ids = string.Join(",", resetRows.Select(r => r.Id));
-            var output = await RunProcessAsync($"/reset /id:{ids}");
-
-            // 更新所有相关行的状态
-            var isError = output.Contains("Failed", StringComparison.OrdinalIgnoreCase) ||
-                          output.Contains("Error", StringComparison.OrdinalIgnoreCase);
-
-            foreach (var row in resetRows)
-            {
-                row.OutputText = output;
-                row.Status = isError ? RowStatus.Error : RowStatus.Configured;
-            }
-        }
-
-        // 2. 处理 Enable (需要按 Variant 分组)
-        var enableRows = rows.Where(r => r.Action == ActionType.Enable).ToList();
-
-        // 分组 Key: Variant (null 视为同一组)
-        var groupedEnables = enableRows.GroupBy(r => r.Variant);
-
-        foreach (var group in groupedEnables)
-        {
-            var currentVariant = group.Key;
-            var ids = string.Join(",", group.Select(r => r.Id));
-
-            var args = $"/enable /id:{ids}";
-            if (currentVariant.HasValue)
-            {
-                args += $" /variant:{currentVariant.Value}";
-            }
-
             var output = await RunProcessAsync(args);
 
             var isError = output.Contains("Failed", StringComparison.OrdinalIgnoreCase) ||
                           output.Contains("Error", StringComparison.OrdinalIgnoreCase);
 
-            foreach (var row in group)
+            var newStatus = isError ? RowStatus.Error : RowStatus.Configured;
+
+            foreach (var row in targetRows)
             {
                 row.OutputText = output;
-                row.Status = isError ? RowStatus.Error : RowStatus.Configured;
+                row.Status = newStatus;
             }
+        }
+
+        // 2. 声明式地构建任务列表 (Batch Plan)
+        // 将 Reset 和 Enable 的处理逻辑统一抽象为 (Arguments, Rows) 的元组流
+
+        // 2.1 准备 Reset 任务
+        var resetTasks = rows
+            .Where(r => r.Action == ActionType.Reset)
+            .GroupBy(_ => 0) // 作为一个整体分组
+            .Select(g => (
+                Args: $"/reset /id:{string.Join(",", g.Select(r => r.Id))}",
+                Rows: g as IEnumerable<InstructionRow>
+            ));
+
+        // 2.2 准备 Enable 任务
+        var enableTasks = rows
+            .Where(r => r.Action == ActionType.Enable)
+            .GroupBy(r => r.Variant)
+            .Select(g => (
+                Args: $"/enable /id:{string.Join(",", g.Select(r => r.Id))}{(g.Key.HasValue ? $" /variant:{g.Key}" : "")}",
+                Rows: g as IEnumerable<InstructionRow>
+            ));
+
+        // 3. 执行
+        // 合并所有任务并执行
+        var allTasks = resetTasks.Concat(enableTasks);
+
+        foreach (var (Args, Rows) in allTasks)
+        {
+            await RunAndUpdateAsync(Args, Rows);
         }
     }
 
