@@ -56,7 +56,7 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
             var newRows = _parser.Parse(trimmedInput);
             if (newRows.Count > 0)
             {
-                _state.AddRange(newRows);
+                _state.Upsert(newRows);
                 // 5. 立即执行查询 (UI 刷新在下次循环，或者可以强制在这里刷新)
                 await CheckNewRowsStatusAsync(newRows);
             }
