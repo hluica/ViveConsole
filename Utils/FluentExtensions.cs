@@ -22,7 +22,5 @@ public static class FluentExtensions
 
     // 集合折叠：把 foreach 变成 Aggregate，让数据流进 Table
     public static Table AddRowsFrom<T>(this Table table, IEnumerable<T> source, Func<T, IRenderable[]> rowMapper)
-    {
-        return source.Aggregate(table, (currentTable, item) => currentTable.AddRow(rowMapper(item)));
-    }
+        => source.Aggregate(table, (currentTable, item) => currentTable.AddRow(rowMapper(item)));
 }

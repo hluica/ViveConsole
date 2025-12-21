@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+
 using ViveConsole.Models;
 
 namespace ViveConsole.Services.Backend;
@@ -7,9 +8,7 @@ namespace ViveConsole.Services.Backend;
 public class VivetoolAdapter : IVivetoolAdapter
 {
     public async Task<string> QuerySingleAsync(uint id)
-    {
-        return await RunProcessAsync($"/query /id:{id}");
-    }
+        => await RunProcessAsync($"/query /id:{id}");
 
     public async Task ExecuteBatchAsync(List<InstructionRow> rows)
     {

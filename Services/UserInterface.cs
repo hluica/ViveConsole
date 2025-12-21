@@ -1,5 +1,6 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Rendering;
+
 using ViveConsole.Models;
 using ViveConsole.Utils;
 
@@ -30,8 +31,8 @@ public class UserInterface
     // --- 纯函数区域 (Pure Functions) ---
 
     // 提取表格结构定义，只负责 "What"，不负责 "Data"
-    private static Table CreateTableStructure() =>
-        new Table()
+    private static Table CreateTableStructure()
+        => new Table()
             .Expand()
             .Border(TableBorder.Square)
             .AddColumn(new TableColumn("[blue bold]ID & Variant[/]").Centered().Width(20))
@@ -39,8 +40,8 @@ public class UserInterface
             .AddColumn(new TableColumn("[white]Status[/]").Centered().Width(20));
 
     // 将单个数据转换为 UI 组件数组 (Map 操作)
-    private static IRenderable[] MapToRenderableRow(InstructionRow row) =>
-        [
+    private static IRenderable[] MapToRenderableRow(InstructionRow row)
+        => [
             new Markup($"[blue bold]{row.GetIdString()}[/]"),
             new Rows(
                 new Rule($"[blue][[{row.Action.ToString().ToUpper()}]][/]").RuleStyle("grey").LeftJustified(),
@@ -58,13 +59,14 @@ public class UserInterface
         AnsiConsole.Write(new Rule().RuleStyle("grey"));
     }
 
-    private static string GetStatusMarkup(RowStatus status) => status switch
-    {
-        RowStatus.Initializing => "[grey]Checking...[/]",
-        RowStatus.Skipped => "[grey]Skipped[/]",
-        RowStatus.Confirming => "[yellow]Confirming[/]",
-        RowStatus.Configured => "[green]Configured[/]",
-        RowStatus.Error => "[red]Error[/]",
-        _ => "Unknown"
-    };
+    private static string GetStatusMarkup(RowStatus status)
+        => status switch
+        {
+            RowStatus.Initializing => "[grey]Checking...[/]",
+            RowStatus.Skipped => "[grey]Skipped[/]",
+            RowStatus.Confirming => "[yellow]Confirming[/]",
+            RowStatus.Configured => "[green]Configured[/]",
+            RowStatus.Error => "[red]Error[/]",
+            _ => "Unknown"
+        };
 }

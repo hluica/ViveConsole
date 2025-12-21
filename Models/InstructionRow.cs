@@ -12,7 +12,5 @@ public class InstructionRow
 
     // 辅助属性：获取格式化的 ID 字符串
     public string GetIdString()
-    {
-        return Variant.HasValue ? $"{Id} (Var: {Variant})" : $"{Id}";
-    }
+        => Variant.HasValue ? $"{Id} (Var: {Variant})" : $"{Id}";
 }

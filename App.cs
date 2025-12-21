@@ -1,4 +1,5 @@
 ﻿using Spectre.Console;
+
 using ViveConsole.Models;
 using ViveConsole.Services;
 using ViveConsole.Services.Backend;
@@ -17,7 +18,8 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
         bool running = true;
 
         // Ctrl+C 捕获
-        Console.CancelKeyPress += (s, e) => {
+        Console.CancelKeyPress += (s, e) =>
+        {
             e.Cancel = true;
             running = false;
         };
@@ -36,9 +38,7 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
 
             // 3. 处理基础指令
             if (string.Equals(trimmedInput, "exit", StringComparison.OrdinalIgnoreCase))
-            {
                 break;
-            }
 
             if (string.Equals(trimmedInput, "run", StringComparison.OrdinalIgnoreCase))
             {
@@ -87,7 +87,8 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
     {
         var executableRows = _state.GetExecutableRows();
 
-        if (executableRows.Count == 0) return;
+        if (executableRows.Count == 0)
+            return;
 
         AnsiConsole.MarkupLine("[yellow]Running instructions...[/]");
 

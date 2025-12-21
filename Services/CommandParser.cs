@@ -6,7 +6,8 @@ public class CommandParser
 {
     public List<InstructionRow> Parse(string input)
     {
-        if (string.IsNullOrWhiteSpace(input)) return [];
+        if (string.IsNullOrWhiteSpace(input))
+            return [];
 
         return [.. input
             // 1. 分割指令段并预处理 (Map & Filter)
@@ -23,7 +24,8 @@ public class CommandParser
     // 纯函数：解析动作和剩余参数字符串
     private static (ActionType? Action, string ParamPart) ParseSegmentContext(string segment)
     {
-        if (string.IsNullOrEmpty(segment)) return (null, string.Empty);
+        if (string.IsNullOrEmpty(segment))
+            return (null, string.Empty);
 
         var action = char.ToLower(segment[0]) switch
         {
@@ -38,8 +40,7 @@ public class CommandParser
 
     // 纯函数：将参数部分转换为指令行列表
     private static IEnumerable<InstructionRow> ParseTokensToRows(ActionType action, string paramPart)
-    {
-        return paramPart
+        => paramPart
             .Split([' ', ','], StringSplitOptions.RemoveEmptyEntries) // 1. 分割字符串
             .Select(ParseIdToken)                                     // 2. 解析，得到可空的 (uint, uint?)?
             .Where(t => t.HasValue)                                   // 3. 过滤掉格式错误的 Token
@@ -52,7 +53,6 @@ public class CommandParser
                 Action = action,
                 Status = action == ActionType.Query ? RowStatus.Skipped : RowStatus.Confirming
             });
-    }
 
     // 纯函数：解析单个 ID Token，返回可空元组
     private static (uint Id, uint? Variant)? ParseIdToken(string token)

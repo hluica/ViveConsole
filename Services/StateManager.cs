@@ -6,7 +6,8 @@ public class StateManager
 {
     private readonly List<InstructionRow> _rows = [];
 
-    public IReadOnlyList<InstructionRow> Rows => _rows;
+    public IReadOnlyList<InstructionRow> Rows
+        => _rows;
 
     public List<InstructionRow> Upsert(IEnumerable<InstructionRow> incomingRows)
     {
@@ -51,8 +52,9 @@ public class StateManager
 
     // --- 其他状态管理方法 ---
 
-    public List<InstructionRow> GetExecutableRows() =>
-        [.. _rows.Where(r => r.Action is ActionType.Enable or ActionType.Reset)];
+    public List<InstructionRow> GetExecutableRows()
+        => [.. _rows.Where(r => r.Action is ActionType.Enable or ActionType.Reset)];
 
-    public void Clear() => _rows.Clear();
+    public void Clear()
+        => _rows.Clear();
 }

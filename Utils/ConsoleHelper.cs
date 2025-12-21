@@ -1,6 +1,7 @@
-﻿using Spectre.Console;
-using System.Runtime.Versioning;
+﻿using System.Runtime.Versioning;
 using System.Security.Principal;
+
+using Spectre.Console;
 
 namespace ViveConsole.Utils;
 
