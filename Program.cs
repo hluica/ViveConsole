@@ -51,7 +51,7 @@ internal class Program
         builder.Services.AddSingleton<UserInterface>();
         builder.Services.AddSingleton<App>();
 
-        using IHost host = builder.Build();
+        using var host = builder.Build();
 
         // 5. 运行 App
         var app = host.Services.GetRequiredService<App>();

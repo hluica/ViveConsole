@@ -5,21 +5,18 @@ namespace ViveConsole.Services;
 public class CommandParser
 {
     public List<InstructionRow> Parse(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return [];
-
-        return [.. input
-            // 1. 分割指令段并预处理 (Map & Filter)
-            .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            // 2. 将字符串转换为上下文对象 (Map)
-            .Select(ParseSegmentContext)
-            // 3. 过滤掉无效动作 (Filter)
-            .Where(ctx => ctx.Action.HasValue)
-            // 4. 解析参数并扁平化结果 (FlatMap / Bind)
-            .SelectMany(ctx => ParseTokensToRows(ctx.Action!.Value, ctx.ParamPart))
-        ];
-    }
+        => string.IsNullOrWhiteSpace(input)
+            ? []
+            : [.. input
+                // 1. 分割指令段并预处理 (Map & Filter)
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                // 2. 将字符串转换为上下文对象 (Map)
+                .Select(ParseSegmentContext)
+                // 3. 过滤掉无效动作 (Filter)
+                .Where(ctx => ctx.Action.HasValue)
+                // 4. 解析参数并扁平化结果 (FlatMap / Bind)
+                .SelectMany(ctx => ParseTokensToRows(ctx.Action!.Value, ctx.ParamPart))
+            ];
 
     // 纯函数：解析动作和剩余参数字符串
     private static (ActionType? Action, string ParamPart) ParseSegmentContext(string segment)
@@ -57,7 +54,7 @@ public class CommandParser
     // 纯函数：解析单个 ID Token，返回可空元组
     private static (uint Id, uint? Variant)? ParseIdToken(string token)
     {
-        var parts = token.Split('+');
+        string[] parts = token.Split('+');
 
         // 解析 ID (失败则返回 null)
         if (!uint.TryParse(parts[0], out uint id))

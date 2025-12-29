@@ -31,10 +31,11 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
 
             // 2. 读取输入 (手动模拟提示符)
             AnsiConsole.Markup("[bold lime]Command > [/]");
-            var input = Console.ReadLine();
+            string? input = Console.ReadLine();
 
-            if (input == null) break; // EOF
-            var trimmedInput = input.Trim();
+            if (input == null)
+                break; // EOF
+            string trimmedInput = input.Trim();
 
             // 3. 处理基础指令
             if (string.Equals(trimmedInput, "exit", StringComparison.OrdinalIgnoreCase))

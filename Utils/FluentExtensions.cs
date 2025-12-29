@@ -15,8 +15,10 @@ public static class FluentExtensions
     // 条件分支：基于条件对对象进行不同处理
     public static T ApplyIf<T>(this T self, bool condition, Action<T> whenTrue, Action<T>? whenFalse = null)
     {
-        if (condition) whenTrue(self);
-        else whenFalse?.Invoke(self);
+        if (condition)
+            whenTrue(self);
+        else
+            whenFalse?.Invoke(self);
         return self;
     }
 

@@ -17,13 +17,14 @@ public static class ConsoleHelper
 
     public static bool IsVivetoolInPath()
     {
-        var pathEnv = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
-        var paths = pathEnv.Split(Path.PathSeparator);
+        string pathEnv = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+        string[] paths = pathEnv.Split(Path.PathSeparator);
 
-        foreach (var path in paths)
+        foreach (string path in paths)
         {
-            var fullPath = Path.Combine(path, "vivetool.exe");
-            if (File.Exists(fullPath)) return true;
+            string fullPath = Path.Combine(path, "vivetool.exe");
+            if (File.Exists(fullPath))
+                return true;
         }
         return false;
     }

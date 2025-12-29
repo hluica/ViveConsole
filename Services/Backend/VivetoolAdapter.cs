@@ -16,9 +16,9 @@ public class VivetoolAdapter : IVivetoolAdapter
         // 使用本地函数（Local Function）封装重复逻辑
         static async Task RunAndUpdateAsync(string args, IEnumerable<InstructionRow> targetRows)
         {
-            var output = await RunProcessAsync(args);
+            string output = await RunProcessAsync(args);
 
-            var isError = output.Contains("Failed", StringComparison.OrdinalIgnoreCase) ||
+            bool isError = output.Contains("Failed", StringComparison.OrdinalIgnoreCase) ||
                           output.Contains("Error", StringComparison.OrdinalIgnoreCase);
 
             var newStatus = isError ? RowStatus.Error : RowStatus.Configured;
@@ -78,8 +78,16 @@ public class VivetoolAdapter : IVivetoolAdapter
             using var process = new Process { StartInfo = psi };
             var outputBuilder = new StringBuilder();
 
-            process.OutputDataReceived += (s, e) => { if (e.Data != null) outputBuilder.AppendLine(e.Data); };
-            process.ErrorDataReceived += (s, e) => { if (e.Data != null) outputBuilder.AppendLine(e.Data); };
+            process.OutputDataReceived += (s, e) =>
+            {
+                if (e.Data != null)
+                    outputBuilder.AppendLine(e.Data);
+            };
+            process.ErrorDataReceived += (s, e) =>
+            {
+                if (e.Data != null)
+                    outputBuilder.AppendLine(e.Data);
+            };
 
             process.Start();
             process.BeginOutputReadLine();
@@ -88,12 +96,10 @@ public class VivetoolAdapter : IVivetoolAdapter
             await process.WaitForExitAsync();
 
             // 清洗输出：移除前两行 (通常是版权信息)
-            var lines = outputBuilder.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-            if (lines.Length >= 2)
-            {
-                return string.Join(Environment.NewLine, lines.Skip(1)).Trim();
-            }
-            return outputBuilder.ToString().Trim();
+            string[] lines = outputBuilder.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            return lines.Length >= 2
+                ? string.Join(Environment.NewLine, lines.Skip(1)).Trim()
+                : outputBuilder.ToString().Trim();
         }
         catch (Exception ex)
         {
