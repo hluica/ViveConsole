@@ -51,17 +51,18 @@ public static class ConsoleHelper
 
         var grid = new Grid();
         // 定义三列：命令、参数、说明
-        grid.AddColumn(new GridColumn().NoWrap().PadRight(2)); // 命令列，不换行
-        grid.AddColumn(new GridColumn().PadRight(4));          // 参数列
-        grid.AddColumn(new GridColumn());                      // 说明列，自动填充剩余空间
+        _ = grid.AddColumn(new GridColumn().NoWrap().PadRight(2)); // 命令列，不换行
+        _ = grid.AddColumn(new GridColumn().PadRight(4));          // 参数列
+        _ = grid.AddColumn(new GridColumn());                      // 说明列，自动填充剩余空间
 
         // 添加行内容: 命令, 参数语法, 详细说明
-        grid.AddRow("[blue]q[/]", "[silver]<id>[/]", "Query the current status of a Feature ID. Executes immediately.");
-        grid.AddRow("[blue]e[/]", "[silver]<id>[[+var]][/]", "Queue an [green]Enable[/] request. Supports optional variant (e.g., +1).");
-        grid.AddRow("[blue]r[/]", "[silver]<id>[/]", "Queue a [yellow]Reset[/] request for the specified Feature ID.");
-        grid.AddRow("[blue]run[/]", "", "Execute all queued [green]Enable[/] & [yellow]Reset[/] instructions in batch.");
-        grid.AddRow("[blue]clear[/]", "", "Clear all pending instructions from the queue.");
-        grid.AddRow("[blue]exit[/]", "", "Close the application.");
+        _ = grid
+            .AddRow("[blue]q[/]", "[silver]<id>[/]", "Query the current status of a Feature ID. Executes immediately.")
+            .AddRow("[blue]e[/]", "[silver]<id>[[+var]][/]", "Queue an [green]Enable[/] request. Supports optional variant (e.g., +1).")
+            .AddRow("[blue]r[/]", "[silver]<id>[/]", "Queue a [yellow]Reset[/] request for the specified Feature ID.")
+            .AddRow("[blue]run[/]", "", "Execute all queued [green]Enable[/] & [yellow]Reset[/] instructions in batch.")
+            .AddRow("[blue]clear[/]", "", "Clear all pending instructions from the queue.")
+            .AddRow("[blue]exit[/]", "", "Close the application.");
 
         // 渲染 Grid
         AnsiConsole.Write(grid);

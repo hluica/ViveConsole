@@ -2,7 +2,12 @@
 
 namespace ViveConsole.Services;
 
-public class CommandParser
+public interface ICommandParser
+{
+    List<InstructionRow> Parse(string input);
+}
+
+public class CommandParser : ICommandParser
 {
     public List<InstructionRow> Parse(string input)
         => string.IsNullOrWhiteSpace(input)

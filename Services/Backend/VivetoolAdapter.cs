@@ -81,15 +81,15 @@ public class VivetoolAdapter : IVivetoolAdapter
             process.OutputDataReceived += (s, e) =>
             {
                 if (e.Data != null)
-                    outputBuilder.AppendLine(e.Data);
+                    _ = outputBuilder.AppendLine(e.Data);
             };
             process.ErrorDataReceived += (s, e) =>
             {
                 if (e.Data != null)
-                    outputBuilder.AppendLine(e.Data);
+                    _ = outputBuilder.AppendLine(e.Data);
             };
 
-            process.Start();
+            _ = process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
 

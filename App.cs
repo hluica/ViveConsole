@@ -6,12 +6,12 @@ using ViveConsole.Services.Backend;
 
 namespace ViveConsole;
 
-public class App(CommandParser parser, StateManager state, IVivetoolAdapter adapter, UserInterface ui)
+public class App(ICommandParser parser, IStateManager state, IVivetoolAdapter adapter, IUserInterface ui)
 {
-    private readonly CommandParser _parser = parser;
-    private readonly StateManager _state = state;
+    private readonly ICommandParser _parser = parser;
+    private readonly IStateManager _state = state;
     private readonly IVivetoolAdapter _adapter = adapter;
-    private readonly UserInterface _ui = ui;
+    private readonly IUserInterface _ui = ui;
 
     public async Task RunAsync()
     {
@@ -57,7 +57,7 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
             var newRows = _parser.Parse(trimmedInput);
             if (newRows.Count > 0)
             {
-                _state.Upsert(newRows);
+                _ = _state.Upsert(newRows);
                 // 5. 立即执行查询 (UI 刷新在下次循环，或者可以强制在这里刷新)
                 await CheckNewRowsStatusAsync(newRows);
             }
@@ -96,6 +96,6 @@ public class App(CommandParser parser, StateManager state, IVivetoolAdapter adap
         await _adapter.ExecuteBatchAsync(executableRows);
 
         AnsiConsole.MarkupLine("[green]Done! Press Enter to refresh table.[/]");
-        Console.ReadLine();
+        _ = Console.ReadLine();
     }
 }

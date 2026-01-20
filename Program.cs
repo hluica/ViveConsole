@@ -45,11 +45,12 @@ internal class Program
         // 4. 配置 Host 和依赖注入
         var builder = Host.CreateApplicationBuilder(args);
 
-        builder.Services.AddSingleton<CommandParser>();
-        builder.Services.AddSingleton<StateManager>();
-        builder.Services.AddSingleton<IVivetoolAdapter, VivetoolAdapter>();
-        builder.Services.AddSingleton<UserInterface>();
-        builder.Services.AddSingleton<App>();
+        _ = builder.Services
+            .AddSingleton<ICommandParser, CommandParser>()
+            .AddSingleton<IStateManager, StateManager>()
+            .AddSingleton<IVivetoolAdapter, VivetoolAdapter>()
+            .AddSingleton<IUserInterface, UserInterface>()
+            .AddSingleton<App>();
 
         using var host = builder.Build();
 

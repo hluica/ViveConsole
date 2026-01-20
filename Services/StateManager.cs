@@ -2,7 +2,15 @@
 
 namespace ViveConsole.Services;
 
-public class StateManager
+public interface IStateManager
+{
+    IReadOnlyList<InstructionRow> Rows { get; }
+    List<InstructionRow> Upsert(IEnumerable<InstructionRow> incomingRows);
+    List<InstructionRow> GetExecutableRows();
+    void Clear();
+}
+
+public class StateManager : IStateManager
 {
     private readonly List<InstructionRow> _rows = [];
 

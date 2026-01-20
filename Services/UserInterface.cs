@@ -6,7 +6,12 @@ using ViveConsole.Utils;
 
 namespace ViveConsole.Services;
 
-public class UserInterface
+public interface IUserInterface
+{
+    void RenderScreen(IReadOnlyList<InstructionRow> rows);
+}
+
+public class UserInterface : IUserInterface
 {
     public void RenderScreen(IReadOnlyList<InstructionRow> rows)
     {
@@ -14,7 +19,7 @@ public class UserInterface
         AnsiConsole.Clear();
 
         // 链式调用的起点：创建表格结构
-        CreateTableStructure()
+        _ = CreateTableStructure()
             // 1. 填充数据 (根据 rows 是否为空走进不同分支，保持 Table 实例流动)
             .ApplyIf(rows.Count == 0,
                 whenTrue: t => t.AddRow(new Markup(""), new Rule("[grey]Waiting for input...[/]").LeftJustified(), new Markup("")),
