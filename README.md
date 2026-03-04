@@ -2,6 +2,10 @@
 
 ViveConsole 是一个简单的交互式前端工具，用于管理 [ViVeTool](https://github.com/thebookisclosed/ViVe) 的 Windows 功能配置。
 
+> [!Warning]
+>
+> 本工具将不再主动进行功能更新。新功能将首先在 [ViveGui](https://github.com/hluica/ViveGui) 上应用，向本工具的功能移植可能会滞后。建议您切换到 ViveGui。
+
 ## 功能
 
 - **查询功能状态**：通过 `q <id>` 命令查询指定功能 ID 的当前状态。
@@ -32,22 +36,23 @@ ViveConsole 是一个简单的交互式前端工具，用于管理 [ViVeTool](ht
 
 ## 系统要求
 
-- 仅用于Windows系统。
+- 仅用于 Windows 系统。根据 .NET 工具的配置要求，本工具可以在其它系统上安装，但在运行时会提示不可用并直接退出。
 - 需要管理员权限。
-- 需要自行安装ViveTool。
+- 需要自行安装 ViveTool。
 
 ## 安装
 
-- 建议作为nuget全局工具安装。
-- clone或下载到本地后，进入项目目录，运行以下命令进行安装：
-
+ViveConsole 是一个 .NET 全局工具，尽管 ViveTool 仅在 Windows 系统可用。获取软件包 `.nupkg` 文件后，可以通过以下命令安装：
 ```powershell
-# 首先打包项目
-dotnet pack -c Release
-
-# 然后安装为全局工具，建议指定版本号
-dotnet tool install --global --add-source ./nupkg ViveConsole --version <版本号>
+dotnet tool install ViveConsole --global --add-source <Source_Path> [--version <Version>]
 ```
+其中 `<Source_Path>` 是包含 `.nupkg` 文件的目录路径（允许使用相对路径）；`<Version>` 是 `.nupkg` 文件名中列出的版本，当 `<Source_Path>` 目录内只有一个 `.nupkg` 文件时可以省略。
+
+您可以从 Release 页面下载 `.nupkg` 文件，或者手动构建：
+- 安装 .NET SDK；
+- Clone 存储库，进入仓库根目录；
+- 执行 `dotnet pack` 指令。
+- 生成的`.nupkg` 文件将存储在仓库的 `/nupkg` 目录下。
 
 ## 版本历史纪录
 
