@@ -1,10 +1,14 @@
 ﻿# ViveConsole
 
+![GitHub Release](https://img.shields.io/github/v/release/hluica/ViveConsole)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hluica/ViveConsole)
+
+
 ViveConsole 是一个简单的交互式前端工具，用于管理 [ViVeTool](https://github.com/thebookisclosed/ViVe) 的 Windows 功能配置。
 
-> [!Warning]
+> [!Tip]
 >
-> 本工具将不再主动进行功能更新。新功能将首先在 [ViveGui](https://github.com/hluica/ViveGui) 上应用，向本工具的功能移植可能会滞后。建议您切换到 ViveGui。
+> 本工具已进入维护阶段，不会主动进行功能更新。新功能将首先在 [ViveGui](https://github.com/hluica/ViveGui) 上应用。向本工具的功能移植可能会滞后。建议您切换到 ViveGui。
 
 ## 功能
 
