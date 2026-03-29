@@ -1,6 +1,6 @@
 ﻿# ViveConsole
 
-![GitHub Release](https://img.shields.io/github/v/release/hluica/ViveConsole)
+[![GitHub Release](https://img.shields.io/github/v/release/hluica/ViveConsole)](https://github.com/hluica/ViveConsole/releases/latest)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hluica/ViveConsole)
 
 
