@@ -1,8 +1,9 @@
 ﻿# ViveConsole
 
+[![.NET 10.0](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/hluica/ViveConsole)](https://github.com/hluica/ViveConsole/releases/latest)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hluica/ViveConsole)
-
 
 ViveConsole 是一个简单的交互式前端工具，用于管理 [ViVeTool](https://github.com/thebookisclosed/ViVe) 的 Windows 功能配置。
 
